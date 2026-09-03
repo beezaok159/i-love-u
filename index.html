@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ถึง... คนพิเศษของผม ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Mitr:wght@300;400;500;600&family=Prompt:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Canvas for floating background hearts & burst fireworks -->
+  <canvas id="heartCanvas"></canvas>
+
+  <!-- Ambient Sound / Music Controls -->
+  <div class="music-pill" id="musicPill" title="เปิด/ปิด เสียงเพลงบรรเลง">
+    <button id="musicToggleBtn" aria-label="Music Toggle">
+      <span class="music-icon" id="musicIcon">🎵</span>
+      <span class="music-title">PORZAX - ดาวดวงนั้น</span>
+      <span class="equalizer" id="equalizer">
+        <span></span><span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+
+  <main class="main-wrapper">
+    <!-- ENVELOPE STAGE (Initial View) -->
+    <section class="envelope-section" id="envelopeSection">
+      <div class="invitation-text">
+        <span class="sparkle">✨</span>
+        <h2>มีจดหมายฉบับพิเศษส่งถึงพี่</h2>
+        <p>แตะที่ซองจดหมายเพื่อเปิดอ่านความในใจ 💌</p>
+      </div>
+
+      <div class="envelope-container" id="envelopeContainer">
+        <div class="envelope" id="envelope">
+          <!-- Envelope Back -->
+          <div class="envelope-back"></div>
+          
+          <!-- Letter Preview Peeking inside -->
+          <div class="letter-peek" id="letterPeek">
+            <div class="letter-peek-lines"></div>
+            <div class="letter-peek-heart">❤️</div>
+          </div>
+          
+          <!-- Envelope Front Left & Right folds -->
+          <div class="envelope-left"></div>
+          <div class="envelope-right"></div>
+          <div class="envelope-bottom"></div>
+          
+          <!-- Envelope Flap (Top fold) -->
+          <div class="envelope-flap" id="envelopeFlap"></div>
+
+          <!-- Wax Seal Button -->
+          <div class="wax-seal" id="waxSeal">
+            <div class="seal-inner">
+              <span class="seal-heart">❤️</span>
+              <span class="seal-text">OPEN</span>
+            </div>
+            <div class="seal-glow"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="click-hint" id="clickHint">
+        <span>👆 แตะตรงรูปหัวใจเพื่อเปิดซอง</span>
+      </div>
+    </section>
+
+    <!-- LETTER CONTENT MODAL / CONTAINER (Expands when opened) -->
+    <section class="letter-content-section hidden" id="letterContentSection">
+      <div class="letter-card" id="letterCard">
+        
+        <!-- Decorative Header -->
+        <header class="letter-header">
+          <div class="stamp-box">
+            <span class="postage-stamp">💖 100% LOVE</span>
+          </div>
+          <div class="title-wrap">
+            <p class="to-label">To : พี่คนดีของผม 💌</p>
+            <h1 class="main-title">ความในใจจากเด็กคนนี้</h1>
+            <div class="date-badge">
+              <span id="currentDateText"></span> • Always & Forever
+            </div>
+          </div>
+        </header>
+
+        <!-- The Love Confession Letter -->
+        <article class="letter-body">
+          <div class="quote-mark start">“</div>
+          <div class="text-content" id="typedMessage">
+            <p class="highlight-line">
+              ผมไม่รู้จะพูดอะไร แต่ผมก็ขอบคุณพี่มากๆ นะที่ยังไม่ไปไหน ขอบคุณที่ยังอยู่ด้วยกัน...
+            </p>
+            <p class="highlight-line">
+              ผมรักพี่มากเลยน้าาา รักสุดๆ เลยแหละ อย่าทิ้งผมไปไหนนะ
+            </p>
+            <p class="highlight-line strong-love">
+              ผมอยากหยุดอยู่กับพี่แล้ว ผมโครตจะรัก โครตจะหึง โครตจะหวงเลย!
+            </p>
+            <p class="highlight-line">
+              อาจจะมีทะเลาะกันบ้าง ผมง้อไม่เป็นหรอก ได้แต่คำขอโทษ... แต่ผมก็ไม่ได้อยากเลิกเลยนะ
+            </p>
+            <p class="highlight-line tender-promise">
+              ขอบคุณที่ยังอยู่กับเด็กน้อยคนนี้... <strong>อย่าไปไหนนะ ❤️</strong>
+            </p>
+          </div>
+          <div class="quote-mark end">”</div>
+        </article>
+
+        <!-- Polaroid Memories Gallery -->
+        <section class="memories-section">
+          <div class="section-badge">
+            <span>📸 Our Precious Moments • รูปคนน่ารักของผม</span>
+          </div>
+
+          <div class="polaroid-grid">
+            <!-- Photo 1 -->
+            <div class="polaroid-card tilt-left" data-index="0">
+              <div class="tape-strip"></div>
+              <div class="photo-frame">
+                <img src="images/photo1.jpg" alt="คนน่ารักของผม" loading="lazy">
+              </div>
+              <p class="caption">คนน่ารัก ขี้เล่นของผม 😉✨</p>
+            </div>
+
+            <!-- Photo 2 -->
+            <div class="polaroid-card tilt-right" data-index="1">
+              <div class="tape-strip"></div>
+              <div class="photo-frame">
+                <img src="images/photo2.jpg" alt="รอยยิ้มนี้ใจละลาย" loading="lazy">
+              </div>
+              <p class="caption">ยิ้มนี้น่ารักที่สุดในโลก 👓💕</p>
+            </div>
+
+            <!-- Photo 3 -->
+            <div class="polaroid-card tilt-left-sm" data-index="2">
+              <div class="tape-strip"></div>
+              <div class="photo-frame">
+                <img src="images/photo3.jpg" alt="น่ารักจังเลย" loading="lazy">
+              </div>
+              <p class="caption">มองกี่ทีก็ตกหลุมรักซ้ำๆ 🤍</p>
+            </div>
+
+            <!-- Photo 4 -->
+            <div class="polaroid-card tilt-right-sm" data-index="3">
+              <div class="tape-strip"></div>
+              <div class="photo-frame">
+                <img src="images/photo4.jpg" alt="คนดีของผม" loading="lazy">
+              </div>
+              <p class="caption">มองตาแล้วรู้เลยว่ารักแค่ไหน 🥺💖</p>
+            </div>
+
+            <!-- Photo 5 -->
+            <div class="polaroid-card tilt-center" data-index="4">
+              <div class="tape-strip"></div>
+              <div class="photo-frame">
+                <img src="images/photo5.webp" alt="คืนที่เราอยู่ด้วยกัน" loading="lazy">
+              </div>
+              <p class="caption">เพลงของเรา & คืนที่คุยด้วยกัน 🎧🌙</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Love Counter / Sweet Status -->
+        <section class="love-status-box">
+          <div class="status-heart">💞</div>
+          <div class="status-info">
+            <h3>สัญญาใจระหว่างเรา</h3>
+            <p>ไม่ว่าจะทะเลาะกันแค่ไหน... จะไม่ปล่อยมือกันนะ</p>
+          </div>
+          <button class="mini-heart-btn" id="sendHeartBtn" title="ส่งหัวใจรัวๆ">
+            <span class="mini-heart-icon">💖</span>
+            <span class="mini-heart-text">กดส่งรัก</span>
+            <span class="heart-counter" id="heartCounter">0</span>
+          </button>
+        </section>
+
+        <!-- Interactive Love Game: รักไหม vs ไม่รัก (ปุ่มเลื่อนหนี) -->
+        <section class="love-game-section">
+          <div class="game-header">
+            <div class="game-badge">💌 มีคำถามสำคัญจะถามพี่...</div>
+            <h3 class="game-question">พี่รักเด็กดื้อคนนี้ไหม? 🥺👉👈</h3>
+            <p class="game-subtext">ตอบจากใจจริงได้เลยนะ (แต่ตอบไม่รักไม่ได้หรอกนะ อิอิ 😜)</p>
+          </div>
+
+          <div class="game-buttons-container" id="gameButtonsContainer">
+            <!-- Left Button: รักไหม -->
+            <button class="action-btn btn-yes" id="btnYes">
+              <span class="btn-icon">💖</span>
+              <span class="btn-text" id="btnYesText">รักไหม? รักสิ ❤️</span>
+            </button>
+
+            <!-- Right Button: ไม่รัก (เลื่อนหนีเมื่อพยายามกด) -->
+            <button class="action-btn btn-no" id="btnNo" tabindex="-1">
+              <span class="btn-icon">😜</span>
+              <span class="btn-text" id="btnNoText">ไม่รัก</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Saved Response Memory Display (แสดงเมื่อมีการกดบันทึกข้อมูล) -->
+        <div class="saved-memory-card hidden" id="savedMemoryCard">
+          <div class="memory-icon">💌</div>
+          <div class="memory-content">
+            <h4>บันทึกความทรงจำล่าสุด</h4>
+            <p id="savedMemoryText"></p>
+            <span class="memory-time" id="savedMemoryTime"></span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Sweet Promise Modal -->
+  <div class="modal-backdrop hidden" id="promiseModal">
+    <div class="modal-box">
+      <div class="modal-emoji">🥺👉👈💖</div>
+      <h2>สัญญาแล้วนะ!</h2>
+      <p class="modal-sweet-talk">
+        เย้! รู้อยู่แล้วว่าพี่ต้องรักผม 🥰<br>
+        ห้ามทิ้งเด็กดื้อคนนี้ไปไหนเด็ดขาดเลยนะ<br>
+        ถึงผมจะง้อไม่เก่ง แต่หัวใจดวงนี้มีแค่พี่คนเดียวจริงๆ<br>
+        <strong>รักพี่ที่สุดในโลกเลยนะ! ❤️</strong>
+      </p>
+
+      <!-- Reply Box to Save Lover's Message / Data -->
+      <div class="reply-box-wrapper">
+        <label for="replyMessageInput" class="reply-label">
+          💌 อยากบอกอะไรเด็กดื้อคนนี้ไหม? (พิมพ์ส่งกลับมาได้นะ)
+        </label>
+        <textarea id="replyMessageInput" placeholder="พิมพ์บอกรักหรือบ่นเด็กคนนี้ตรงนี้ได้เลยนะ... 🥰" rows="2"></textarea>
+        
+        <button class="action-btn btn-save-reply" id="btnSaveReply">
+          <span class="btn-icon">💾</span>
+          <span>บันทึกความในใจ & ส่งคำตอบ ❤️</span>
+        </button>
+
+        <div class="save-success-badge hidden" id="saveSuccessBadge">
+          ✨ บันทึกข้อมูลสำเร็จ! เด็กดื้อคนนี้ได้รับคำตอบแล้วนะ 💕
+        </div>
+      </div>
+
+      <button class="action-btn btn-close-modal" id="closeModalBtn">
+        รับทราบแล้ว เกี่ยวก้อยกันตลอดไป 🤙❤️
+      </button>
+    </div>
+  </div>
+
+  <!-- Image Lightbox Modal -->
+  <div class="lightbox-modal hidden" id="lightboxModal">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose">&times;</button>
+      <img id="lightboxImg" src="" alt="ภาพความทรงจำ">
+      <p id="lightboxCaption" class="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
