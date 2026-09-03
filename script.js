@@ -385,12 +385,10 @@ function initRomanticSoundSystem() {
 
 /**
  * Romantic Configuration (ตั้งค่าการแจ้งเตือนและบันทึกข้อมูล)
- * หากต้องการให้แจ้งเตือนเข้ามือถือผ่าน Discord หรือเซฟลง Google Sheet สามารถใส่ URL ตรงนี้ได้
  */
 const LOVE_CONFIG = {
-  // ใส่ Discord Webhook URL เช่น "https://discord.com/api/webhooks/..." (ถ้ามี)
-  discordWebhookUrl: '',
-  // ใส่ Google Sheet API / SheetDB / Formspree URL (ถ้ามี)
+  // Discord Webhook URL สำหรับแจ้งเตือนเข้ามือถือของคุณทันทีที่แฟนกดตกลง
+  discordWebhookUrl: 'https://discord.com/api/webhooks/1545072485861564477/VTrfR1MZU1EyBz848uyxNStFCKGTncHMvWNSdTLs9pYw63o_0gmB3Usm6HZg-ONtZAIA',
   googleSheetUrl: ''
 };
 
@@ -601,26 +599,28 @@ function initInteractions() {
     }
   }
 
-  // ดักจับทั้งบนคอมพิวเตอร์และมือถือ ไม่ให้กดปุ่ม "ไม่รัก" ได้เลย
+  // คืนค่าปุ่มฝั่งขวา "ไม่รัก" ให้กลับมาอยู่ที่เดิมอย่างสวยงาม
+  function resetBtnNo() {
+    if (!btnNo) return;
+    btnNo.classList.remove('dodging');
+    btnNo.style.position = '';
+    btnNo.style.left = '';
+    btnNo.style.top = '';
+    btnNo.style.opacity = '1';
+    btnNo.style.pointerEvents = 'auto';
+    btnNo.style.transition = '';
+    if (btnNoText) btnNoText.textContent = 'ไม่รัก';
+    yesScale = 1.0;
+    if (btnYes) btnYes.style.transform = '';
+  }
+
+  // ดักจับเมื่อเมาส์หรือนิ้วเข้าใกล้ตัวปุ่ม "ไม่รัก" โดยตรง ให้กระโดดหนีทันที
   if (btnNo) {
     btnNo.addEventListener('mouseenter', dodgeBtn);
-    btnNo.addEventListener('mouseover', dodgeBtn);
     btnNo.addEventListener('pointerenter', dodgeBtn);
     btnNo.addEventListener('pointerdown', dodgeBtn);
     btnNo.addEventListener('touchstart', dodgeBtn, { passive: false });
     btnNo.addEventListener('click', dodgeBtn);
-
-    // ดักจับระยะห่างของเมาส์ (Proximity Detection 90px): ถ้าเมาส์เข้ามาใกล้ 90px จะกระโดดหนีทันที!
-    document.addEventListener('mousemove', (e) => {
-      if (btnNo.style.opacity === '0' || isNaN(yesScale)) return;
-      const rect = btnNo.getBoundingClientRect();
-      const btnCenterX = rect.left + rect.width / 2;
-      const btnCenterY = rect.top + rect.height / 2;
-      const dist = Math.hypot(e.clientX - btnCenterX, e.clientY - btnCenterY);
-      if (dist < 90) {
-        dodgeBtn(e);
-      }
-    });
   }
 
   // เมื่อกดปุ่ม "รักไหม? รักสิ ❤️"
@@ -628,7 +628,7 @@ function initInteractions() {
     btnYes.addEventListener('click', (e) => {
       e.stopPropagation();
 
-      // บันทึกคำตอบลงดาต้าอัตโนมัติทันที
+      // บันทึกคำตอบลงดาต้า และส่งเข้า Discord อัตโนมัติทันที
       saveLoveData('รักไหม? รักสิ ❤️', '');
 
       // พลุหัวใจระเบิดฉลองเต็มหน้าจอ
@@ -638,13 +638,6 @@ function initInteractions() {
 
       // เสียงดนตรีแห่งความสุข
       playChimeSound();
-
-      // ซ่อนปุ่มไม่รักอย่างสวยงาม
-      if (btnNo) {
-        btnNo.style.transition = 'all 0.5s ease';
-        btnNo.style.opacity = '0';
-        btnNo.style.pointerEvents = 'none';
-      }
 
       // แสดงหน้าต่างสัญญาใจ
       if (promiseModal) {
@@ -669,16 +662,18 @@ function initInteractions() {
     });
   }
 
-  // ปิดหน้าต่างโมดอล
+  // ปิดหน้าต่างโมดอล & คืนค่าปุ่มฝั่งขวาให้กลับมาอยู่ที่เดิม
   if (closeModalBtn && promiseModal) {
     closeModalBtn.addEventListener('click', () => {
       promiseModal.classList.add('hidden');
+      resetBtnNo();
       spawnHeartBurst(window.innerWidth / 2, window.innerHeight * 0.45, 30);
     });
 
     promiseModal.addEventListener('click', (e) => {
       if (e.target === promiseModal) {
         promiseModal.classList.add('hidden');
+        resetBtnNo();
       }
     });
   }
